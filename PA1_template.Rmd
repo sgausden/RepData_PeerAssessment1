@@ -1,10 +1,8 @@
 ---
 title: "Reproducible Research: Peer Assessment 1"
-output: 
-  html_document:
-    keep_md: true
+output: md_document
+keep_md: true
 ---
-
 
 ## Loading and preprocessing the data
 
@@ -14,15 +12,10 @@ Load the data (i.e. read.csv())
 
 Process/transform the data (if necessary) into a format suitable for your analysis
 
-    
-    ```{r, echo=TRUE}
-#       getwd()
-       setwd("~/R/Coursera Data Science/Rep Research/RepData_PeerAssessment1/Activity")
+```{r, echo=TRUE}
 activity<-read.csv("activity.csv")
-
-#       head(activity)
-#       str(activity$steps)        
-
+head(activity)
+library(ggplot2)
 
 ```
 
@@ -39,27 +32,25 @@ If you do not understand the difference between a histogram and a barplot, resea
 
 Calculate and report the mean and median of the total number of steps taken per day
 
-#install.packages("ggplot2")
-#install.packages("colorspace")
 
-
-```{r, echo=TRUE}
-   library("ggplot2")
     
-meansteps<-aggregate(activity$steps,list(activity$date),sum)
-#       head(meansteps)
-
-
-#       Plot
 ```{r, echo=TRUE}
+meansteps<-aggregate(activity$steps,list(activity$date),sum)
 
+```
+
+Plot
+
+```{r, echo=TRUE}
 
 a<-ggplot(meansteps,aes(meansteps$x))   +
     geom_histogram(na.rm=TRUE)
 a
 
+```
+Mean and Median
 
-#       Mean and Media
+```{r, echo=TRUE}
 
 mean(meansteps$x,na.rm=TRUE)
 median(meansteps$x,na.rm=TRUE)
@@ -92,10 +83,9 @@ meanint[meanint$x==max(meanint$x),1]
 ```
 
 
-## Imputing missing values
+# Imputing missing values
 
-#   Strategy used replaces NAs with the average for that time interval 
-#   across observed period
+Strategy used replaces NAs with the average for that time interval across observed period
 
 Note that there are a number of days/intervals where there are missing values (coded as NA). The presence of missing days may introduce bias into some calculations or summaries of the data.
 
@@ -113,7 +103,6 @@ Make a histogram of the total number of steps taken each day and Calculate and r
 sum(is.na(activity$steps))
 
 #       Replace NA Values with average for that time
-install.packages("plyr")
 library("plyr")
 library("ggplot2")
 activityNew<-activity
